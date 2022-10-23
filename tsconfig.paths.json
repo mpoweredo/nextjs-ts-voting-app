@@ -3,6 +3,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"auth/*": ["src/components/auth/*"],
+			"UI/*": ["src/components/UI/*"],
+			"types/*": ["src/types/*"]
 		}
 	}
 }
