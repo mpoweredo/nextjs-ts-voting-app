@@ -3,4 +3,10 @@ type SignInValues = {
 	password: string;
 };
 
-export type { SignInValues };
+type SignUpValues = {
+	name: string;
+	email: string;
+	password: string;
+};
+
+export type { SignInValues, SignUpValues };
