@@ -4,7 +4,8 @@
 		"paths": {
 			"auth/*": ["src/components/auth/*"],
 			"UI/*": ["src/components/UI/*"],
-			"types/*": ["src/types/*"]
+			"types/*": ["src/types/*"],
+			"data/*": ["src/data/*"],
 		}
 	}
 }
