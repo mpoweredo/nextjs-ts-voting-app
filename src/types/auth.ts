@@ -1,12 +1,10 @@
-type SignInValues = {
+export interface ISignInValues {
 	email: string;
 	password: string;
-};
+}
 
-type SignUpValues = {
+export interface ISignUpValues {
 	name: string;
 	email: string;
 	password: string;
-};
-
-export type { SignInValues, SignUpValues };
+}

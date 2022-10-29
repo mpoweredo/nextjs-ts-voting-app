@@ -1,7 +1,7 @@
 import { Box, Button, Center, Container, FormLabel, Heading, Stack } from '@chakra-ui/react';
 import { signinSchema } from 'data/validationSchemas';
 import { Formik, Form, Field } from 'formik';
-import { SignInValues } from 'types/auth';
+import { ISignInValues } from 'types/auth';
 import Input from 'UI/Input';
 
 const SignIn = () => {
@@ -10,7 +10,7 @@ const SignIn = () => {
 		password: '',
 	};
 
-	const submitHandler = (values: SignInValues) => {
+	const submitHandler = (values: ISignInValues) => {
 		console.log(values);
 	};
 
