@@ -1,11 +1,12 @@
 {
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"auth/*": ["src/components/auth/*"],
-			"UI/*": ["src/components/UI/*"],
-			"types/*": ["src/types/*"],
-			"data/*": ["src/data/*"],
-		}
-	}
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "auth/*": ["src/components/auth/*"],
+      "UI/*": ["src/components/UI/*"],
+      "types/*": ["src/types/*"],
+      "data/*": ["src/data/*"],
+      "store/*": ["src/store/*"]
+    }
+  }
 }
