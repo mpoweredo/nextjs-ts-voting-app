@@ -6,7 +6,8 @@
       "UI/*": ["src/components/UI/*"],
       "types/*": ["src/types/*"],
       "data/*": ["src/data/*"],
-      "store/*": ["src/store/*"]
+      "store/*": ["src/store/*"],
+      "hooks/*": ["src/hooks/*"]
     }
   }
 }
