@@ -1,13 +1,16 @@
 import { auth, db } from 'data/firebaseConfig'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
-import { createContext, PropsWithChildren, useContext, useState } from 'react'
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react'
+import { getUsername } from 'src/helpers/authHelpers'
+import { IUser } from 'types/auth'
 import { IAuthContext } from 'types/authContext'
 
 const UserContext = createContext<IAuthContext | false>(false)
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState<null | IUser>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   const signUp = async (email: string, password: string, name: string) => {
     try {
@@ -43,11 +46,33 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     }
   }
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async currentUser => {
+      if (currentUser) {
+        const name = await getUsername(currentUser.uid)
+        const userData: IUser = {
+          ...currentUser,
+          ...name,
+        }
+
+        setUser(userData)
+      } else {
+        setUser(null)
+      }
+      setIsLoading(false)
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
   return (
     <UserContext.Provider
       value={{
         signUp,
         signIn,
+        isLoading,
+        user,
       }}
     >
       {children}
