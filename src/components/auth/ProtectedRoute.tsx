@@ -1,4 +1,4 @@
-import { Box, Center, Spinner, Text } from '@chakra-ui/react'
+import { Box, Center, Spinner } from '@chakra-ui/react'
 import { authRequired, blockedOnAuth } from 'data/auth'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -6,32 +6,42 @@ import { UserAuth } from 'store/AuthContext'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoading } = UserAuth()
-  const { pathname, push } = useRouter()
+  const { push, pathname } = useRouter()
 
   const isProtectedRoute = authRequired.includes(pathname)
   const isBlockedOnAuth = blockedOnAuth.includes(pathname)
 
   useEffect(() => {
-    if (!(!!user) && !isLoading && isProtectedRoute) {
+    // check if user is logged in
+    if (!user && !isLoading && isProtectedRoute && !isBlockedOnAuth) {
       push('/signin')
-    } else if (!!user && !isLoading && !isProtectedRoute && isBlockedOnAuth) {
+      // check if user is logged in and tries to go on /signin or /signup page
+    } else if (user && !isLoading && !isProtectedRoute && isBlockedOnAuth) {
       push('/profile')
     }
-  }, [pathname, user, isLoading, push, isProtectedRoute, isBlockedOnAuth])
+  }, [user, isLoading, isBlockedOnAuth, isProtectedRoute, push])
 
-  return (
-    <>
-      {isLoading ? (
-        <Box w="100vw" h="100vh">
-          <Center h="full">
-            <Spinner />
-          </Center>
-        </Box>
-      ) : (
-        children
-      )}
-    </>
-  )
+  if (isLoading) {
+    return (
+      <Box w="100vw" h="100vh">
+        <Center h="full">
+          <Spinner />
+        </Center>
+      </Box>
+    )
+  }
+
+  if (user && !isLoading && isProtectedRoute && !isBlockedOnAuth) {
+    return <>{children}</>
+  } else if (!user && !isLoading && !isProtectedRoute && isBlockedOnAuth) return <>{children}</>
+  else
+    return (
+      <Box w="100vw" h="100vh">
+        <Center h="full">
+          <Spinner />
+        </Center>
+      </Box>
+    )
 }
 
 export default ProtectedRoute

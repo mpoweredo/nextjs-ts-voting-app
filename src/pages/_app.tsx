@@ -4,14 +4,25 @@ import theme from '../chakra/chakra'
 import '../styles.css'
 import { AuthContextProvider } from 'src/store/AuthContext'
 import ProtectedRoute from 'auth/ProtectedRoute'
+import { authRequired, blockedOnAuth } from 'data/auth'
+import { useRouter } from 'next/router'
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const { pathname } = useRouter()
+
+  const isProtectedRoute = authRequired.includes(pathname)
+  const isBlockedOnAuth = blockedOnAuth.includes(pathname)
+
   return (
     <AuthContextProvider>
       <ChakraProvider theme={theme}>
-        <ProtectedRoute>
+        {isBlockedOnAuth || isProtectedRoute ? (
+          <ProtectedRoute>
+            <Component {...pageProps} />
+          </ProtectedRoute>
+        ) : (
           <Component {...pageProps} />
-        </ProtectedRoute>
+        )}
       </ChakraProvider>
     </AuthContextProvider>
   )
