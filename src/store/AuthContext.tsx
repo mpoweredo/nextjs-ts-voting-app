@@ -1,5 +1,10 @@
 import { auth, db } from 'data/firebaseConfig'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut as firebaseSignOut,
+} from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import { getUsername } from 'src/helpers/authHelpers'
@@ -46,6 +51,19 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     }
   }
 
+  const signOut = async () => {
+    try {
+      setUser(null)
+      await firebaseSignOut(auth)
+      return 'Successfully signed out!'
+    } catch (e) {
+      if (e instanceof Error) {
+        console.log(e);
+        throw new Error('Something went wrong while signing out...')
+      }
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async currentUser => {
       if (currentUser) {
@@ -71,6 +89,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       value={{
         signUp,
         signIn,
+        signOut,
         isLoading,
         user,
       }}

@@ -7,7 +7,7 @@ import { ISignInValues, ISignUpValues } from 'types/auth'
 const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false)
   const toast = useToast()
-  const { signIn: signInFunction, signUp: signUpFunction } = UserAuth()
+  const { signIn: signInFunction, signUp: signUpFunction, signOut: signOutFunction } = UserAuth()
 
   const signIn = useCallback(
     async ({ email, password }: ISignInValues, { setFieldValue }: FormikHelpers<ISignInValues>) => {
@@ -64,7 +64,26 @@ const useAuth = () => {
     [toast, signUpFunction]
   )
 
-  return { isLoading, signIn, signUp }
+  const signOut = useCallback(async () => {
+    try {
+      const response = await signOutFunction()
+      toast({
+        title: 'Signed out.',
+        description: response,
+        status: 'success',
+      })
+    } catch (e) {
+      if (e instanceof Error) {
+        toast({
+          title: 'Signing out failed!',
+          description: e.message,
+          status: 'error',
+        })
+      }
+    }
+  }, [toast, signOutFunction])
+
+  return { isLoading, signIn, signUp, signOut }
 }
 
 export default useAuth
