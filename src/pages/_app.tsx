@@ -6,6 +6,7 @@ import { AuthContextProvider } from 'src/store/AuthContext'
 import ProtectedRoute from 'auth/ProtectedRoute'
 import { authRequired, blockedOnAuth } from 'data/auth'
 import { useRouter } from 'next/router'
+import Header from 'layout/Header'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter()
@@ -18,6 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={theme}>
         {isBlockedOnAuth || isProtectedRoute ? (
           <ProtectedRoute>
+            {isProtectedRoute && <Header />}
             <Component {...pageProps} />
           </ProtectedRoute>
         ) : (
