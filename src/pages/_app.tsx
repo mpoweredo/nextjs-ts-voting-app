@@ -11,7 +11,7 @@ import Header from 'layout/Header'
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter()
 
-  const isProtectedRoute = authRequired.includes(pathname)
+  const isProtectedRoute = authRequired.some(item => pathname.includes(item))
   const isBlockedOnAuth = blockedOnAuth.includes(pathname)
 
   return (

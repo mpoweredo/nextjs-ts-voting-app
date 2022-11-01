@@ -8,7 +8,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, isLoading } = UserAuth()
   const { push, pathname } = useRouter()
 
-  const isProtectedRoute = authRequired.includes(pathname)
+  const isProtectedRoute = authRequired.some(item => pathname.includes(item))
+
   const isBlockedOnAuth = blockedOnAuth.includes(pathname)
 
   useEffect(() => {
