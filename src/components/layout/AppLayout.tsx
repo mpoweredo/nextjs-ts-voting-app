@@ -1,5 +1,5 @@
 import { Container, Stack } from '@chakra-ui/react'
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 
 const AppLayout = ({ children }: PropsWithChildren) => {
   return (
