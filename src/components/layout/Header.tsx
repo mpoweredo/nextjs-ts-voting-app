@@ -1,11 +1,18 @@
-import { Center, Flex, HStack, Spacer, Text } from '@chakra-ui/react'
+import { Button, Center, HStack, Spacer } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import UserDropdown from '../user/UserDropdown'
 
 const Header = () => {
+  const { push, pathname } = useRouter()
+
+  const isOnAddVotingPage = pathname === '/votings/add-voting'
+
   return (
-    <Center as="header" width="full" mt={[0, 3]}>
+    <Center zIndex={'999'} as="header" width="full" mt={[0, 3]} position="fixed">
       <HStack bg="gray.700" maxW={['full', 450, 700]} h="56px" w="full" rounded={[0, 'lg']} px={3}>
-        <Text fontWeight="bold">Let&lsquo;s vote</Text>
+        <Button disabled={isOnAddVotingPage} colorScheme="teal" onClick={() => push('/votings/add-voting')}>
+          Create voting
+        </Button>
         <Spacer />
         <UserDropdown />
       </HStack>
