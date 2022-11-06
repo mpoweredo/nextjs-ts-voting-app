@@ -1,4 +1,5 @@
 export enum Collections {
     users = 'users',
-    votings = 'votings'
+    votings = 'votings',
+    votes = 'votes'
 }
