@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Header from 'layout/Header'
 import AppLayout from 'layout/AppLayout'
 import '../styles.css'
+import { VotingContextProvider } from 'store/VotingContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter()
@@ -25,7 +26,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Component {...pageProps} />
             ) : (
               <AppLayout>
-                <Component {...pageProps} />
+                <VotingContextProvider>
+                  <Component {...pageProps} />
+                </VotingContextProvider>
               </AppLayout>
             )}
           </ProtectedRoute>

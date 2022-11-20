@@ -15,3 +15,9 @@ export interface IVoting {
   title: string
   id: string
 }
+
+export interface INewVoting {
+  answers: IVotingAnswer[]
+  creatorId: string
+  title: string
+}
